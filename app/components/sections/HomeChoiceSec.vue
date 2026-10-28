@@ -7,18 +7,18 @@
         <div class="choice-sec__table" role="table" aria-label="Сравнение Bitox с банками и другими сервисами">
           <div class="choice-sec__head">
             <div class="choice-sec__row choice-sec__row--head" role="row">
-              <div class="choice-sec__cell choice-sec__cell--label" role="columnheader" />
+              <div class="choice-sec__cell choice-sec__cell--label" role="columnheader">{{ headerLabels.label }}</div>
               <div
                 class="choice-sec__cell choice-sec__cell--col-bitox choice-sec__cell--head-bitox"
                 role="columnheader"
               >
-                Bitox
+                {{ headerLabels.bitox }}
               </div>
               <div class="choice-sec__cell choice-sec__cell--head" role="columnheader">
-                Банки
+                {{ headerLabels.banks }}
               </div>
               <div class="choice-sec__cell choice-sec__cell--head" role="columnheader">
-                Другие сервисы
+                {{ headerLabels.others }}
               </div>
             </div>
           </div>
@@ -145,15 +145,27 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  // Подписи колонок таблицы (например, только для главной); пустые — стандартные
+  headers: {
+    type: Object,
+    default: null,
+  },
 })
+
+const headerLabels = computed(() => ({
+  label: props.headers?.label || '',
+  bitox: props.headers?.bitox || 'Bitox',
+  banks: props.headers?.banks || 'Банки',
+  others: props.headers?.others || 'Другие сервисы',
+}))
 
 const urlApi = useRuntimeConfig().public.apiUrl
 
-const tabs = [
-  { id: 'bitox', label: 'Bitox' },
-  { id: 'banks', label: 'Банки' },
-  { id: 'others', label: 'Другие сервисы' },
-]
+const tabs = computed(() => [
+  { id: 'bitox', label: headerLabels.value.bitox },
+  { id: 'banks', label: headerLabels.value.banks },
+  { id: 'others', label: headerLabels.value.others },
+])
 
 const activeTab = ref('bitox')
 
