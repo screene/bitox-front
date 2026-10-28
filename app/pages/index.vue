@@ -8,7 +8,10 @@
 
     <HomeOffersSec v-if="home?.home_offers_banners_sec" :section="home.home_offers_banners_sec" />
 
-    <HomeChoiceSec />
+    <HomeChoiceSec
+      :section="home?.home_choice_sec"
+      :headers="{ label: 'Критерий', banks: 'Банки РФ', others: 'Другие сервисы / P2P' }"
+    />
 
     <HomeCountriesSec v-if="home?.home_countries_sec" :section="home.home_countries_sec" />
 
@@ -45,6 +48,7 @@ const populate = [
   'populate[home_team_sec]=true',
   'populate[home_how_start_sec][populate][clusters][populate]=items',
   'populate[home_faq_sec][populate]=questions_list',
+  'populate[home_choice_sec][populate]=table_row',
   'populate[home_benefits_sec][populate][benefits_items]=true',
   'populate[home_benefits_sec][populate][image_for_box_2]=true',
   'populate[home_down_ctr_v1_sec][populate]=image',
