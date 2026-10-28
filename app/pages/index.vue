@@ -12,7 +12,7 @@
 
     <HomeCountriesSec v-if="home?.home_countries_sec" :section="home.home_countries_sec" />
 
-    <HomeBenefitsSec />
+    <HomeBenefitsSec :section="home?.home_benefits_sec" />
 
     <HomeReviewsSec />
 
@@ -45,6 +45,8 @@ const populate = [
   'populate[home_team_sec]=true',
   'populate[home_how_start_sec][populate][clusters][populate]=items',
   'populate[home_faq_sec][populate]=questions_list',
+  'populate[home_benefits_sec][populate][benefits_items]=true',
+  'populate[home_benefits_sec][populate][image_for_box_2]=true',
   'populate[home_down_ctr_v1_sec][populate]=image',
   'populate[Seo][populate]=shareImage',
 ].join('&')
