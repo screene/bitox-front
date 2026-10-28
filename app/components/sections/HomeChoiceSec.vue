@@ -140,6 +140,11 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  // Заголовок из кода страницы (например, со страной) вместо заголовка из админки
+  title: {
+    type: String,
+    default: '',
+  },
 })
 
 const urlApi = useRuntimeConfig().public.apiUrl
@@ -176,6 +181,7 @@ const sectionData = computed(() => {
 })
 
 const sectionTitle = computed(() => {
+  if (props.title?.trim()) return props.title.trim()
   const title = sectionData.value?.title_section
   return typeof title === 'string' ? title.trim() : ''
 })
