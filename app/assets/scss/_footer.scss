@@ -149,6 +149,12 @@
 .app-footer__requisites {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.app-footer__requisites-group {
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 }
 
