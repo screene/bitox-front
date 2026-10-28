@@ -28,7 +28,7 @@
     :override="transfersPage.transfer_economy_sec"
     :countryName="transfersPage.title" />
     
-    <HomeChoiceSec />
+    <HomeChoiceSec :title="`Сравнение Bitox, банков и сервисов переводов в ${getCountryPrepositional(transfersPage.title, 'accusative')}`" />
     
     <HomeBenefitsSec />
     
