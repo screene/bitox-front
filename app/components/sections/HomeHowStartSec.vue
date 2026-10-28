@@ -7,7 +7,6 @@
         <div class="how-start-sec__title">
           {{ sectionTitle }}
 
-          <div class="how-start-sec__badge">Наши кейсы</div>
         </div>
 
       </div>
