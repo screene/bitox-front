@@ -14,6 +14,7 @@
           :key="item.id"
           :href="item.href"
           class="media-sec__card"
+          :class="{ 'media-sec__card--with-text': item.description }"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -35,6 +36,8 @@
           </div>
 
           <h3 class="media-sec__card-title">{{ item.title }}</h3>
+
+          <p v-if="item.description" class="media-sec__card-text">{{ item.description }}</p>
         </a>
       </div>
 
@@ -97,6 +100,7 @@ const allPublications = computed(() => {
     source: post.logo?.alternativeText || '',
     logo: getStrapiMediaUrl(post.logo, apiUrl),
     title: post.title,
+    description: post.description?.trim() || '',
   }))
 })
 
