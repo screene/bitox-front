@@ -24,15 +24,24 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  section: {
+    type: Object,
+    default: null,
+  },
 })
 
 const urlApi = useRuntimeConfig().public.apiUrl
 
+// Если у страницы заполнен свой FAQ (services_faq_sec) — показываем его, иначе общий
+const useExternalSection = Boolean(props.section?.questions_list?.length)
+
 const { data: faqResponse } = await useFetch(
-  `${urlApi}/api/transfers-faq-component?populate[faq_sec][populate]=questions_list`,
+  () => (useExternalSection
+    ? null
+    : `${urlApi}/api/transfers-faq-component?populate[faq_sec][populate]=questions_list`),
 )
 
-const section = faqResponse.value?.data?.faq_sec || null
+const section = useExternalSection ? props.section : (faqResponse.value?.data?.faq_sec || null)
 
 
 
