@@ -32,7 +32,8 @@
               <ClientOnly>
                 <Vue3SlideUpDown :model-value="activeId === item.id" :duration="400" class="invoice-terms-sec__mobile-panel">
                   <div class="invoice-terms-sec__body">
-                    <p v-if="item.text" class="invoice-terms-sec__text">{{ item.text }}</p>
+                    <div v-if="item.html" class="invoice-terms-sec__text invoice-terms-sec__text--rich" v-html="item.html" />
+                    <p v-else-if="item.text" class="invoice-terms-sec__text">{{ item.text }}</p>
                   </div>
                 </Vue3SlideUpDown>
               </ClientOnly>
@@ -42,7 +43,8 @@
           <div class="invoice-terms-sec__panel">
             <template v-if="activeItem">
               <h3 v-if="activeItem.title" class="invoice-terms-sec__subtitle">{{ activeItem.title }}</h3>
-              <p v-if="activeItem.text" class="invoice-terms-sec__text">{{ activeItem.text }}</p>
+              <div v-if="activeItem.html" class="invoice-terms-sec__text invoice-terms-sec__text--rich" v-html="activeItem.html" />
+              <p v-else-if="activeItem.text" class="invoice-terms-sec__text">{{ activeItem.text }}</p>
             </template>
           </div>
         </div>
@@ -56,21 +58,34 @@ import { Vue3SlideUpDown } from 'vue3-slide-up-down'
 
 //функция для добавления страны в нужном падеже
 import { getCountryPrepositional } from '~/utils/getCountryPrepositional'
+import MarkdownIt from 'markdown-it'
+
+// HTML в тексте экранируется (html: false), поэтому v-html безопасен
+const md = new MarkdownIt()
 
 const props = defineProps({
   countryName: {
     type: String,
     default: '',
   },
+  // Свой блок условий для конкретной страны (invoice_terms_sec). Если не заполнен — общий блок
+  section: {
+    type: Object,
+    default: null,
+  },
 })
 
 const urlApi = useRuntimeConfig().public.apiUrl
 
+const useExternalSection = Boolean(props.section?.term_items?.length)
+
 const { data: termsResponse } = await useFetch(
-  `${urlApi}/api/invoice-terms-component?populate[term_items]=true`,
+  () => (useExternalSection
+    ? null
+    : `${urlApi}/api/invoice-terms-component?populate[term_items]=true`),
 )
 
-const section = termsResponse.value?.data || null
+const section = useExternalSection ? props.section : (termsResponse.value?.data || null)
 
 function replaceCountryPlaceholder(text) {
   if (!text) return ''
@@ -90,10 +105,14 @@ if (section?.term_items) {
 
     if (!item.title && !item.text) continue
 
+    const text = replaceCountryPlaceholder(item.text || '')
+
     items.push({
       id: item.id || i + 1,
       title: replaceCountryPlaceholder(item.title || ''),
-      text: replaceCountryPlaceholder(item.text || ''),
+      text,
+      // В своём блоке страны текст поддерживает списки (Markdown)
+      html: useExternalSection && text ? md.render(text) : '',
     })
   }
 }
