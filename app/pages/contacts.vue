@@ -15,7 +15,7 @@ const urlApi = useRuntimeConfig().public.apiUrl
 const populate = [
   'populate[contacts_hero_sec][populate][telegram_img]=true',
   'populate[contacts_hero_sec][populate][tg_users]=true',
-  'populate[contacts_map_sec]=true',
+  'populate[contacts_map_sec][populate]=offices',
   'populate[contact_offices_sec][populate][offices_map_image]=true',
   'populate[contact_offices_sec][populate][offices_list]=true',
   ...STRAPI_SEO_POPULATE_PARTS,
