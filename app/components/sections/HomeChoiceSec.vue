@@ -150,6 +150,12 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  // Точечные правки общей таблицы для страницы: строки (table_row) совпадают с общими по названию
+  // (title_row), заполненные ячейки заменяют общие, пустые остаются как в общей таблице
+  patch: {
+    type: Object,
+    default: null,
+  },
 })
 
 const headerLabels = computed(() => ({
@@ -203,15 +209,26 @@ const rows = computed(() => {
 
   if (!items?.length) return []
 
+  const patchByLabel = new Map(
+    (props.patch?.table_row ?? [])
+      .filter((item) => item?.title_row?.trim())
+      .map((item) => [item.title_row.trim().toLowerCase(), item]),
+  )
+
   return items
     .filter((item) => item?.title_row?.trim())
-    .map((item) => ({
-      id: item.id,
-      label: item.title_row.trim(),
-      bitox: cellValue(item.value_bitox),
-      banks: cellValue(item.value_banks),
-      others: cellValue(item.value_other),
-    }))
+    .map((item) => {
+      const own = patchByLabel.get(item.title_row.trim().toLowerCase())
+      const pick = (field) => (typeof own?.[field] === 'string' && own[field].trim()) || item[field]
+
+      return {
+        id: item.id,
+        label: item.title_row.trim(),
+        bitox: cellValue(pick('value_bitox')),
+        banks: cellValue(pick('value_banks')),
+        others: cellValue(pick('value_other')),
+      }
+    })
 })
 
 const showSection = computed(() => {
