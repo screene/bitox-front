@@ -1662,16 +1662,35 @@ display: block;
 }
 
 // Краткое описание под заголовком карточки (необязательное поле в админке)
-.media-sec__card--with-text .media-sec__card-title {
-  flex: none;
-  margin-bottom: 10px;
+// Карточки с описанием: строки (шапка, заголовок, сумма, текст) общие у всех карточек ряда,
+// поэтому блоки суммы и текста стоят на одном уровне, даже если заголовки разной длины
+.media-sec__card--with-text {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 0;
+
+  .media-sec__card-header {
+    grid-row: 1;
+  }
+
+  .media-sec__card-title {
+    grid-row: 2;
+    margin-bottom: 10px;
+  }
+
+  .media-sec__card-sum {
+    grid-row: 3;
+    margin-bottom: 8px;
+  }
+
+  .media-sec__card-text {
+    grid-row: 4;
+  }
 }
 
 .media-sec__card-info {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
+  display: contents;
 }
 
 .media-sec__card-sum,
