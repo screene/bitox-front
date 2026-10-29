@@ -16,7 +16,7 @@
         </div>
 
         <div class="about-offices-sec__list-card">
-          <h3 class="about-offices-sec__list-title">Список всех городов</h3>
+          <h3 class="about-offices-sec__list-title">{{ section.list_title || 'Список всех городов' }}</h3>
 
           <ul class="about-offices-sec__list">
             <li
