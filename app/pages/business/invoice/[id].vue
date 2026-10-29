@@ -16,7 +16,7 @@
     <ServiceInvoicesSec
       v-if="invoice.services_invoice_sec"
       :section="invoice.services_invoice_sec"
-      :sectionTitle="`Какие инвойсы в ${getCountryPrepositional(invoice.title, 'accusative')} мы помогаем оплачивать`"
+      :sectionTitle="invoicesSecTitle"
     />
     
     <ServiceEconomySec :sectionTitle="`Экономия на оплате инвойсов в ${getCountryPrepositional(invoice.title, 'accusative')} с Bitox`"/>
@@ -82,6 +82,17 @@ const { data: invoicesResponse } = await useFetch(
 )
 
 const invoice = computed(() => invoiceResponse.value?.data?.[0])
+// H2 блока «Какие инвойсы…»: если в админке (services_invoice_sec → title) задан свой заголовок — берём его,
+// иначе используем шаблон со страной
+const DEFAULT_INVOICES_SEC_TITLE = 'Какие инвойсы мы помогаем оплачивать'
+
+const invoicesSecTitle = computed(() => {
+  const adminTitle = invoice.value?.services_invoice_sec?.title?.trim()
+
+  if (adminTitle && adminTitle !== DEFAULT_INVOICES_SEC_TITLE) return adminTitle
+
+  return `Какие инвойсы в ${getCountryPrepositional(invoice.value?.title, 'accusative')} мы помогаем оплачивать`
+})
 
 function getInvoiceRegionKey(item) {
   const region = item?.invoices_pages_region
