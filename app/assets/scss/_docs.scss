@@ -53,4 +53,9 @@
         color: $green1;
         text-decoration: underline;
     }
+
+    // Лишняя пустая строка в тексте (3+ Enter подряд) = дополнительный отступ
+    .docs-page-sec__spacer {
+        height: 0;
+    }
 }
