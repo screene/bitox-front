@@ -21,8 +21,8 @@
     
     <ServiceEconomySec :sectionTitle="`Экономия на оплате инвойсов в ${getCountryPrepositional(invoice.title, 'accusative')} с Bitox`" :override="economyOverride" :country-name="invoice.title" />
 
-    <InvoiceProcessSec :country-name="invoice.title" />
-
+    <InvoiceProcessSec :country-name="invoice.title" :override="invoice.invoice_process_sec" />
+    
     <HomeChoiceSec />
 
     <HomeBenefitsSec />
@@ -69,6 +69,7 @@ const populate = [
   'populate[invoices_pages_region]=true',
   'populate[service_economy_sec][populate][economy_list_items][populate]=image',
   'populate[invoice_terms_sec][populate]=term_items',
+  'populate[invoice_process_sec][populate]=process_item',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
