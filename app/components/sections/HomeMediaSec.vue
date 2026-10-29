@@ -14,7 +14,7 @@
           :key="item.id"
           :href="item.href"
           class="media-sec__card"
-          :class="{ 'media-sec__card--with-text': item.description }"
+          :class="{ 'media-sec__card--with-text': item.sum || item.text }"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -37,7 +37,10 @@
 
           <h3 class="media-sec__card-title">{{ item.title }}</h3>
 
-          <p v-if="item.description" class="media-sec__card-text">{{ item.description }}</p>
+          <div v-if="item.sum || item.text" class="media-sec__card-info">
+            <p v-if="item.sum" class="media-sec__card-sum">{{ item.sum }}</p>
+            <p v-if="item.text" class="media-sec__card-text">{{ item.text }}</p>
+          </div>
         </a>
       </div>
 
@@ -91,6 +94,15 @@ const defaultPublications = [
 const sectionTitle = computed(() => props.section?.title || 'СМИ о нас')
 const sectionSubtitle = computed(() => props.section?.subtitle || null)
 
+// Описание из админки: первая строка — сумма (отдельный блок), остальное — текст кейса.
+// Если строка одна — выводится только текстовый блок
+function splitDescription(value) {
+  const lines = (value || '').split('\n').map((line) => line.trim()).filter(Boolean)
+
+  if (lines.length > 1) return { sum: lines[0], text: lines.slice(1).join(' ') }
+  return { sum: '', text: lines[0] || '' }
+}
+
 const allPublications = computed(() => {
   if (!props.section?.posts?.length) return defaultPublications
 
@@ -100,7 +112,7 @@ const allPublications = computed(() => {
     source: post.logo?.alternativeText || '',
     logo: getStrapiMediaUrl(post.logo, apiUrl),
     title: post.title,
-    description: post.description?.trim() || '',
+    ...splitDescription(post.description),
   }))
 })
 
