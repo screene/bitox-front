@@ -4,7 +4,7 @@
       <div class="about-contacts-sec__box">
         <div class="about-contacts-sec__head" :class="{ 'about-contacts-sec__head--with-tabs': offices.length > 1 }">
           <h2 class="about-contacts-sec__title">{{ section.title }}</h2>
-          <p class="about-contacts-sec__subtitle">{{ section.subtitle }}</p>
+          <h3 v-if="section.subtitle" class="about-contacts-sec__subtitle">{{ section.subtitle }}</h3>
         </div>
 
         <div v-if="offices.length > 1" class="about-contacts-sec__tabs" role="tablist" aria-label="Офисы">
