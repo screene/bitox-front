@@ -49,7 +49,7 @@
     
     <HomeMediaSec v-if="transfersPage.service_media_about_us_sec" :section="transfersPage.service_media_about_us_sec" />
     
-    <TransferFaqSec :country-name="transfersPage.title" />
+    <TransferFaqSec :country-name="transfersPage.title" :section="transfersPage.services_faq_sec" />
     
     <ServiceContactSec :sectionTitle="`Заказать международный перевод в ${getCountryPrepositional(transfersPage.title, 'accusative')}`"  />
   </main>
@@ -78,6 +78,7 @@ const populate = [
   'populate[transfers_pages_region]=true',
   'populate[services_benefits_sec][populate][benefits_items]=true',
   'populate[services_benefits_sec][populate][image_for_box_2]=true',
+  'populate[services_faq_sec][populate]=questions_list',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
