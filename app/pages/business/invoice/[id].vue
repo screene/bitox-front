@@ -19,7 +19,7 @@
       :sectionTitle="invoicesSecTitle"
     />
     
-    <ServiceEconomySec :sectionTitle="`Экономия на оплате инвойсов в ${getCountryPrepositional(invoice.title, 'accusative')} с Bitox`"/>
+    <ServiceEconomySec :sectionTitle="`Экономия на оплате инвойсов в ${getCountryPrepositional(invoice.title, 'accusative')} с Bitox`" :override="economyOverride" :country-name="invoice.title" />
 
     <InvoiceProcessSec :country-name="invoice.title" />
 
@@ -67,6 +67,7 @@ const populate = [
   'populate[services_invoice_example_sec][populate][examples_items][populate][blog][populate]=post_image',
   'populate[service_media_about_us_sec][populate][posts][populate]=logo',
   'populate[invoices_pages_region]=true',
+  'populate[service_economy_sec][populate][economy_list_items][populate]=image',
   'populate[invoice_terms_sec][populate]=term_items',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
@@ -82,6 +83,13 @@ const { data: invoicesResponse } = await useFetch(
 )
 
 const invoice = computed(() => invoiceResponse.value?.data?.[0])
+// Свои тексты карточек блока «Экономия» для страницы (service_economy_sec → economy_list_items).
+// Заголовок и подзаголовок остаются прежними (из кода и общего блока)
+const economyOverride = computed(() => {
+  const items = invoice.value?.service_economy_sec?.economy_list_items
+
+  return items?.length ? { economy_list_items: items } : null
+})
 // H2 блока «Какие инвойсы…»: если в админке (services_invoice_sec → title) задан свой заголовок — берём его,
 // иначе используем шаблон со страной
 const DEFAULT_INVOICES_SEC_TITLE = 'Какие инвойсы мы помогаем оплачивать'
