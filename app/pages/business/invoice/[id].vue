@@ -11,7 +11,7 @@
 
     <InvoiceStatsSec :countryName="invoice.title" />
 
-    <InvoiceTermsSec :country-name="invoice.title" />
+    <InvoiceTermsSec :country-name="invoice.title" :section="invoice.invoice_terms_sec" />
 
     <ServiceInvoicesSec
       v-if="invoice.services_invoice_sec"
@@ -67,6 +67,7 @@ const populate = [
   'populate[services_invoice_example_sec][populate][examples_items][populate][blog][populate]=post_image',
   'populate[service_media_about_us_sec][populate][posts][populate]=logo',
   'populate[invoices_pages_region]=true',
+  'populate[invoice_terms_sec][populate]=term_items',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
