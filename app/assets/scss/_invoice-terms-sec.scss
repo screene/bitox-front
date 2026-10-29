@@ -145,6 +145,15 @@
     list-style: decimal;
   }
 
+  // В глобальных стилях у li стоит list-style-type: none — возвращаем маркеры
+  ul > li {
+    list-style-type: disc;
+  }
+
+  ol > li {
+    list-style-type: decimal;
+  }
+
   li {
     margin-bottom: 6px;
   }
