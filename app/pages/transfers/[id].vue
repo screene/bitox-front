@@ -30,7 +30,7 @@
     
     <HomeChoiceSec :title="transfersPage.slug === 'china' ? 'Сравнение Bitox, банков и сервисов переводов в Китай' : ''" />
     
-    <HomeBenefitsSec />
+    <HomeBenefitsSec :section="transfersPage.services_benefits_sec" />
     
     <BusinessCountriesSec
       v-if="transfersPages.length"
@@ -76,6 +76,8 @@ const populate = [
   'populate[transfer_process_sec][populate]=steps',
   'populate[transfer_economy_sec][populate][economy_list_items][populate]=image',
   'populate[transfers_pages_region]=true',
+  'populate[services_benefits_sec][populate][benefits_items]=true',
+  'populate[services_benefits_sec][populate][image_for_box_2]=true',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
