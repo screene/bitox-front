@@ -1602,8 +1602,10 @@ display: block;
       color: $white;
     }
 
+    .media-sec__card-sum,
     .media-sec__card-text {
-      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
+      color: $white;
     }
 
     .media-sec__card-arrow {
@@ -1665,16 +1667,33 @@ display: block;
   margin-bottom: 10px;
 }
 
-.media-sec__card-text {
+.media-sec__card-info {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.media-sec__card-sum,
+.media-sec__card-text {
   margin: 0;
-  padding: 0 4px;
-  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #E0E3E5;
   font-size: 14px;
   line-height: 1.35;
-  color: rgba(49, 49, 50, 0.8);
-  white-space: pre-line;
-  transition: color 0.25s ease;
+  color: $gray;
+  transition: color 0.25s ease, background-color 0.25s ease;
+}
+
+.media-sec__card-sum {
+  font-weight: 800;
+}
+
+.media-sec__card-text {
+  flex: 1;
+  font-weight: 500;
+  color: rgba(49, 49, 50, 0.85);
 }
 
 .media-sec__card-title {
