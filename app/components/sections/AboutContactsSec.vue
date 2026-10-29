@@ -2,9 +2,24 @@
   <section v-if="section" ref="sectionRef" class="about-contacts-sec">
     <div class="container">
       <div class="about-contacts-sec__box">
-        <div class="about-contacts-sec__head">
+        <div class="about-contacts-sec__head" :class="{ 'about-contacts-sec__head--with-tabs': offices.length > 1 }">
           <h2 class="about-contacts-sec__title">{{ section.title }}</h2>
           <p class="about-contacts-sec__subtitle">{{ section.subtitle }}</p>
+        </div>
+
+        <div v-if="offices.length > 1" class="about-contacts-sec__tabs" role="tablist" aria-label="Офисы">
+          <button
+            v-for="office in offices"
+            :key="office.id"
+            type="button"
+            class="about-contacts-sec__tab"
+            :class="{ 'about-contacts-sec__tab--active': office.id === activeOffice.id }"
+            role="tab"
+            :aria-selected="office.id === activeOffice.id"
+            @click="activeOfficeId = office.id"
+          >
+            {{ office.city }}
+          </button>
         </div>
 
         <div class="about-contacts-sec__grid">
@@ -72,8 +87,32 @@ async function openTelegramBot() {
   if (result?.data?.link) window.open(result.data.link, '_blank')
 }
 
+// Офисы из админки (список offices). Если список пуст — один офис из старых полей блока
+const offices = computed(() => {
+  const list = (props.section.offices ?? []).filter((office) => office?.location || office?.map_coordinates_yandex)
+
+  if (list.length) {
+    return list.map((office, index) => ({
+      id: office.id ?? index,
+      city: office.city || `Офис ${index + 1}`,
+      location: office.location,
+      coordinates: office.map_coordinates_yandex,
+    }))
+  }
+
+  return [{
+    id: 'main',
+    city: '',
+    location: props.section.location,
+    coordinates: props.section.map_coordinates_yandex,
+  }]
+})
+
+const activeOfficeId = ref(null)
+const activeOffice = computed(() => offices.value.find((office) => office.id === activeOfficeId.value) ?? offices.value[0])
+
 const mapData = computed(() => {
-  return parseMapCoordinates(props.section.map_coordinates_yandex) ?? {
+  return parseMapCoordinates(activeOffice.value.coordinates) ?? {
     karta_dolgota: 37.537,
     karta_shirota: 55.7495,
   }
@@ -82,7 +121,7 @@ const mapData = computed(() => {
 const contacts = computed(() => [
   {
     id: 'address',
-    text: props.section.location,
+    text: activeOffice.value.location,
     icon: `<svg width="18" height="22" viewBox="0 0 9 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0C2.01866 0 0 1.87171 0 4.17241C0 8.11762 4.09132 10.8183 4.26549 10.9314C4.33585 10.9772 4.41808 11 4.5 11C4.58192 11 4.66415 10.9772 4.73451 10.9314C4.90868 10.8183 9 8.11762 9 4.17241C9 1.87171 6.98134 0 4.5 0ZM4.5 6.06897C3.37224 6.06897 2.45455 5.21808 2.45455 4.17241C2.45455 3.12675 3.37224 2.27586 4.5 2.27586C5.62776 2.27586 6.54545 3.12675 6.54545 4.17241C6.54545 5.21808 5.62776 6.06897 4.5 6.06897Z" fill="#FFDD2D"/></svg>`,
   },
   {
