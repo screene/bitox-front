@@ -1602,6 +1602,10 @@ display: block;
       color: $white;
     }
 
+    .media-sec__card-text {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
     .media-sec__card-arrow {
       background: $yellow;
       color: $gray;
@@ -1653,6 +1657,24 @@ display: block;
     display: block;
     flex-shrink: 0;
   }
+}
+
+// Краткое описание под заголовком карточки (необязательное поле в админке)
+.media-sec__card--with-text .media-sec__card-title {
+  flex: none;
+  margin-bottom: 10px;
+}
+
+.media-sec__card-text {
+  flex: 1;
+  margin: 0;
+  padding: 0 4px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.35;
+  color: rgba(49, 49, 50, 0.8);
+  white-space: pre-line;
+  transition: color 0.25s ease;
 }
 
 .media-sec__card-title {
