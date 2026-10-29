@@ -34,6 +34,12 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  // Свои шаги для конкретной страны (invoice_process_sec → process_item).
+  // Если не заполнены — шаги из общего блока
+  override: {
+    type: Object,
+    default: null,
+  },
 })
 
 const urlApi = useRuntimeConfig().public.apiUrl
@@ -74,9 +80,12 @@ if (section?.section_base_title) {
 
 const steps = []
 
-if (section?.process_item) {
-  for (let i = 0; i < section.process_item.length; i++) {
-    const item = section.process_item[i]
+const ownItems = props.override?.process_item ?? []
+const processItems = ownItems.length ? ownItems : (section?.process_item ?? [])
+
+if (processItems.length) {
+  for (let i = 0; i < processItems.length; i++) {
+    const item = processItems[i]
 
     if (item.title || item.subtitle) {
       steps.push({
