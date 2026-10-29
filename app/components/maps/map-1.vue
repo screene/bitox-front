@@ -6690,16 +6690,6 @@
   ]);
   
   //HOOKS
-  // При переключении офиса плавно переносим карту к новой метке
-  watch(
-    () => [props.mapData.karta_dolgota, props.mapData.karta_shirota],
-    ([lng, lat]) => {
-      if (lng && lat) {
-        (map.value as any)?.setLocation?.({ center: [lng, lat], zoom: 13, duration: 700 });
-      }
-    },
-  );
-
   onMounted(() => {});
   </script>
 
