@@ -58,7 +58,7 @@
 
         <div class="about-contacts-sec__map">
           <ClientOnly>
-            <Map1 :map-data="mapData" />
+            <Map1 :key="activeOffice.id" :map-data="mapData" />
           </ClientOnly>
         </div>
       </div>
