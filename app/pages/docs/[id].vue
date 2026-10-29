@@ -54,7 +54,9 @@ function renderMarkdown(text) {
         return '';
     }
 
-    return md.render(text);
+    const spaced = text.replace(/\n{3,}/g, (match) => '\n\n' + '&nbsp;\n\n'.repeat(match.length - 2));
+
+    return md.render(spaced).replace(/<p>\u00a0<\/p>/g, '<div class="docs-page-sec__spacer"></div>');
 }
 
 
