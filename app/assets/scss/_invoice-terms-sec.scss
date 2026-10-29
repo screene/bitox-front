@@ -125,6 +125,38 @@
   color: $gray-83;
 }
 
+.invoice-terms-sec__text--rich {
+  p,
+  ul,
+  ol {
+    margin: 0 0 12px;
+  }
+
+  ul,
+  ol {
+    padding-left: 22px;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  li:last-child,
+  p:last-child,
+  ul:last-child,
+  ol:last-child {
+    margin-bottom: 0;
+  }
+}
+
 .invoice-terms-sec__note {
   display: flex;
   align-items: flex-start;
