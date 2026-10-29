@@ -23,7 +23,7 @@
 
     <InvoiceProcessSec :country-name="invoice.title" :override="invoice.invoice_process_sec" />
     
-    <HomeChoiceSec />
+    <HomeChoiceSec :section="invoice.invoice_choice_sec?.title_section ? invoice.invoice_choice_sec : null" :patch="invoice.invoice_choice_sec" />
 
     <HomeBenefitsSec />
 
@@ -70,6 +70,7 @@ const populate = [
   'populate[service_economy_sec][populate][economy_list_items][populate]=image',
   'populate[invoice_terms_sec][populate]=term_items',
   'populate[invoice_process_sec][populate]=process_item',
+  'populate[invoice_choice_sec][populate]=table_row',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
