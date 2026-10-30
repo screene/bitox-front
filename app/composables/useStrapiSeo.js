@@ -1,5 +1,7 @@
 import { formatSeoRobots, getStrapiMediaUrl } from '~/utils/strapi'
 
+const SITE_URL = 'https://bitox.global'
+
 export function useStrapiSeo(seo, options = {}) {
   const {
     apiUrl,
@@ -10,13 +12,15 @@ export function useStrapiSeo(seo, options = {}) {
   } = options
 
   const route = useRoute()
-  const requestUrl = useRequestURL()
 
   const title = seo?.metaTitle || fallbackTitle
   const description = seo?.metaDescription || fallbackDescription
   const ogImage = getStrapiMediaUrl(seo?.shareImage, apiUrl) || fallbackOgImage
   const twitterImage = getStrapiMediaUrl(seo?.twitterImage, apiUrl) || ogImage
-  const canonicalUrl = seo?.canonicalUrl || `${requestUrl.origin}${route.fullPath}`
+  // Канонический адрес всегда на основном домене (за nginx сервер видит себя как localhost),
+  // без параметров (?utm=… и т.п.) и без слеша в конце — как в sitemap
+  const path = route.path.length > 1 ? route.path.replace(/\/+$/, '') : route.path
+  const canonicalUrl = seo?.canonicalUrl || `${SITE_URL}${path === '/' ? '' : path}`
   const ogUrl = seo?.ogUrl || canonicalUrl
 
   useSeoMeta({
