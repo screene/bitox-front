@@ -16,12 +16,8 @@
       <p class="consultation-modal__subtitle">Перезвоним за 30 минут (с 10:00 до 22:00 по МСК)</p>
 
       <h2 id="consultation-modal-title" class="consultation-modal__title consultation-modal__title--compact">
-        Укажите номер телефона — рассчитаем актуальный курс и ответим на вопросы по оплате.
+        Укажите номер телефона — рассчитаем актуальный курс и ответим на вопросы по оплате. Или напишите в наш Telegram-бот
       </h2>
-
-      <p class="consultation-modal__tg">
-        <a href="#" class="consultation-modal__tg-link" @click.prevent="openTelegramBot">Или напишите в наш Телеграм-бот</a>.
-      </p>
     </template>
 
     <template v-else>
@@ -80,6 +76,16 @@
         :disabled="!canSubmit || isSubmitting"
       >
         {{ isSubmitting ? 'Отправка...' : 'Отправить' }}
+      </button>
+
+      <!-- Только на хабе /individuals/: вторая кнопка — в Telegram-бота -->
+      <button
+        v-if="isIndividualsHub"
+        type="button"
+        class="consultation-modal__tg-btn"
+        @click="openTelegramBot"
+      >
+        Написать в Telegram
       </button>
     </form>
   </div>
@@ -152,20 +158,33 @@ async function handleSubmit() {
 
 <style scoped>
 .consultation-modal__title--compact {
-  margin-bottom: 16px;
+  margin-bottom: 32px;
   font-size: 28px;
   line-height: 1.05;
 }
 
-.consultation-modal__tg {
-  margin: 0 0 32px;
+.consultation-modal__tg-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 55px;
+  margin-top: 12px;
+  padding: 12px 24px;
+  border: 1px solid #333;
+  border-radius: 10px;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
   font-size: 16px;
-  line-height: 1.3;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-.consultation-modal__tg-link {
-  color: #2f6fd6;
-  text-decoration: underline;
+.consultation-modal__tg-btn:hover {
+  background: #333;
+  color: #fff;
 }
 
 @media (max-width: 767px) {
