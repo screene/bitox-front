@@ -43,13 +43,6 @@
               
             </div>
           </div>
-          
-
-          <div v-if="card.pageLink" class="service-invoices-sec__card-link">
-              <NuxtLink :to="card.pageLink" class="app-btn">
-                Подробнее
-              </NuxtLink>
-            </div>
         </article>
       </div>
     </div>
@@ -122,6 +115,8 @@ onUnmounted(() => {
 <style scoped>
 /* Карточки со ссылкой подсвечиваются при наведении */
 .service-invoices-sec__card--link {
+  position: relative;
+  cursor: pointer;
   transition: box-shadow 0.25s ease;
 }
 
@@ -133,6 +128,13 @@ onUnmounted(() => {
   color: inherit;
   text-decoration: none;
   transition: color 0.2s ease;
+}
+
+/* Кликабельна вся карточка, но ссылка (анкор) — только на названии */
+.service-invoices-sec__card-title-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
 }
 
 .service-invoices-sec__card--link:hover .service-invoices-sec__card-title-link,
