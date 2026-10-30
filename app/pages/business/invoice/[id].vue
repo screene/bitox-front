@@ -25,7 +25,7 @@
     
     <HomeChoiceSec :section="invoice.invoice_choice_sec?.title_section ? invoice.invoice_choice_sec : null" :patch="invoice.invoice_choice_sec" />
 
-    <HomeBenefitsSec />
+    <HomeBenefitsSec :section="invoice.services_benefits_sec" />
 
     <BusinessCountriesSec
       v-if="invoices.length"
@@ -71,6 +71,8 @@ const populate = [
   'populate[invoice_terms_sec][populate]=term_items',
   'populate[invoice_process_sec][populate]=process_item',
   'populate[invoice_choice_sec][populate]=table_row',
+  'populate[services_benefits_sec][populate][benefits_items]=true',
+  'populate[services_benefits_sec][populate][image_for_box_2]=true',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
