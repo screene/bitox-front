@@ -7,6 +7,7 @@ const PAGES = [
   { path: '', api: 'home' },
   { path: '/business', api: 'business' },
   { path: '/transfers', api: 'transfer' },
+  { path: '/individuals', api: 'individuals-hub' },
   { path: '/crypto-exchange', api: 'exchange' },
   { path: '/about', api: 'about' },
   { path: '/partners', api: 'partnership' },
