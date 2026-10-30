@@ -98,7 +98,6 @@ import {
 import { getCityOptions, resolveCityCode, syncRefSelect } from './location-utils'
 import HeroCalcSelect from './HeroCalcSelect.vue'
 import { useModalStore, MODAL_NAMES } from '~/stores/modal'
-import { isExchangeCalcOffline } from '~/utils/isExchangeCalcOffline'
 
 const props = defineProps({
   openTab: {
@@ -226,9 +225,7 @@ watch(fromOptions, (list) => syncRefSelect(selectedFrom, list, (item) => item.fr
 watch(toOptions, (list) => syncRefSelect(selectedTo, list, (item) => item.to), { immediate: true })
 
 onMounted(async () => {
-  isOffline.value = isExchangeCalcOffline()
-  if (isOffline.value) return
-
+  // Ночной заглушки нет: калькулятор работает всегда, сервер отдаёт последние найденные курсы
   try {
     const data = await $fetch('/nuxt-api/exchange-rates')
     const list = data?.items || []
