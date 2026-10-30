@@ -10,7 +10,7 @@
 
     <ServiceInvoicesSec v-if="transfer.services_invoice_sec" :section="transfer.services_invoice_sec" />
 
-    <ServiceEconomySec :featureOverrides="[{ text: 'Вы платите в рублях внутри РФ. Bitox переводит деньги получателю за рубежом с зарубежного счёта.' }]" />
+    <ServiceEconomySec :featureOverrides="[{ text: 'Вы платите в рублях внутри РФ. Bitox переводит деньги получателю за рубежом с зарубежного счёта.' }]" :override="transfer.service_economy_sec" />
 
     <HomeChoiceSec />
 
@@ -53,6 +53,7 @@ const populate = [
   'populate[services_invoice_example_sec][populate][examples_items][populate][blog][populate]=post_image',
   'populate[service_media_about_us_sec][populate][posts][populate]=logo',
   'populate[services_faq_sec][populate]=questions_list',
+  'populate[service_economy_sec][populate][economy_list_items][populate]=image',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
