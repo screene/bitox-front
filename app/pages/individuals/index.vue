@@ -7,7 +7,7 @@
     <ServiceInvoicesSec v-if="hub.services_invoice_sec" :section="hub.services_invoice_sec" />
     <!-- Свои тексты, если заполнены в админке; пустые поля — из общего блока -->
     <ServiceEconomySec :override="hub.service_economy_sec" />
-    <HomeChoiceSec />
+    
     <HomeBenefitsSec :section="hub.services_benefits_sec" />
     <BusinessCountriesSec
       v-if="transfersPages.length"
