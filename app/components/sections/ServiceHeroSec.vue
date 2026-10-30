@@ -15,6 +15,9 @@
         <AppClientBtn class="service-hero-sec__btn" @click="openConsultationModal">
           Оставить заявку
         </AppClientBtn>
+
+        <!-- Подпись под кнопкой (поле button_note в админке), например «Минимальная сумма: от 500 USD» -->
+        <p v-if="section.button_note" class="service-hero-sec__btn-note">{{ section.button_note }}</p>
       </div>
 
       <div v-if="heroImageUrl" class="service-hero-sec__media">
@@ -101,3 +104,12 @@ onUnmounted(() => {
   heroAnimation?.revert()
 })
 </script>
+
+<style scoped>
+.service-hero-sec__btn-note {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #838383;
+}
+</style>
