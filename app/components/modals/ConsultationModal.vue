@@ -11,11 +11,26 @@
       </svg>
     </button>
 
-    <p class="consultation-modal__subtitle">Позвоним вам в течении 30 минут</p>
+    <!-- Хаб для физлиц /individuals/ — свои тексты и ссылка на Telegram-бота -->
+    <template v-if="isIndividualsHub">
+      <p class="consultation-modal__subtitle">Перезвоним за 30 минут (с 10:00 до 22:00 по МСК)</p>
 
-    <h2 id="consultation-modal-title" class="consultation-modal__title">
-      Менеджер ответит на вопросы и расскажет про возможности и преимущества нашего сервиса
-    </h2>
+      <h2 id="consultation-modal-title" class="consultation-modal__title consultation-modal__title--compact">
+        Укажите номер телефона — рассчитаем актуальный курс и ответим на вопросы по оплате.
+      </h2>
+
+      <p class="consultation-modal__tg">
+        <a href="#" class="consultation-modal__tg-link" @click.prevent="openTelegramBot">Или напишите в наш Телеграм-бот</a>.
+      </p>
+    </template>
+
+    <template v-else>
+      <p class="consultation-modal__subtitle">Позвоним вам в течении 30 минут</p>
+
+      <h2 id="consultation-modal-title" class="consultation-modal__title">
+        Менеджер ответит на вопросы и расскажет про возможности и преимущества нашего сервиса
+      </h2>
+    </template>
 
     <form class="consultation-modal__form" @submit.prevent="handleSubmit">
       <label class="consultation-modal__field">
@@ -77,6 +92,26 @@ import flagRu from '~/assets/images/flags/russian.png'
 const modalStore = useModalStore()
 const { isSubmitting, submit } = useFormSubmit()
 
+// Свой вариант попапа только на хабе /individuals/ (не на /individuals/medicine и т.п.)
+const route = useRoute()
+const isIndividualsHub = computed(() => route.path.replace(/\/+$/, '') === '/individuals')
+
+const { $TgAnalitika } = useNuxtApp()
+
+async function openTelegramBot() {
+  // Вкладку открываем сразу по клику, иначе браузер может заблокировать её как всплывающее окно
+  const tab = window.open('', '_blank')
+  try {
+    const result = await $TgAnalitika.trackEvent()
+    const link = result?.data?.link
+    if (tab && link) tab.location.href = link
+    else if (link) window.location.href = link
+    else tab?.close()
+  } catch {
+    tab?.close()
+  }
+}
+
 const phone = ref('+7 ')
 const personalConsent = ref(true)
 const offerConsent = ref(true)
@@ -114,3 +149,28 @@ async function handleSubmit() {
   })
 }
 </script>
+
+<style scoped>
+.consultation-modal__title--compact {
+  margin-bottom: 16px;
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.consultation-modal__tg {
+  margin: 0 0 32px;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.consultation-modal__tg-link {
+  color: #2f6fd6;
+  text-decoration: underline;
+}
+
+@media (max-width: 767px) {
+  .consultation-modal__title--compact {
+    font-size: 22px;
+  }
+}
+</style>
