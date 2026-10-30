@@ -1,7 +1,7 @@
 <template>
   <main v-if="transfer" class="service-page">
     <!-- Шапка с формой «Рассчитайте платеж» вместо картинки -->
-    <InvoiceHeroSec v-if="transfer.service_hero_sec" :section="transfer.service_hero_sec" />
+    <InvoiceHeroSec v-if="transfer.service_hero_sec" :section="transfer.service_hero_sec" calc-title="Рассчитайте перевод денег за рубеж" />
 
     <!-- Калькулятор показывается, только если в админке включено show_calc_sec -->
     <CryptoExchangeCalcSec v-if="transfer.show_calc_sec" />
