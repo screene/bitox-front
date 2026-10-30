@@ -6,7 +6,7 @@
     v-if="transfersPage.service_hero_sec" 
     :section="transfersPage.service_hero_sec" 
     :countryName="transfersPage.title"
-    :calcTitle="`Рассчитайте комиссию по переводу в ${getCountryPrepositional(transfersPage.title, 'accusative')}`"/>
+    calcTitle="Рассчитайте перевод денег за рубеж"/>
 
     <!-- <CryptoExchangeCalcSec :countryName="transfersPage.title" /> -->
 
