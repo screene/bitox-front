@@ -16,7 +16,7 @@
       <p class="consultation-modal__subtitle">Перезвоним за 30 минут (с 10:00 до 22:00 по МСК)</p>
 
       <h2 id="consultation-modal-title" class="consultation-modal__title consultation-modal__title--compact">
-        Укажите номер телефона — рассчитаем актуальный курс и ответим на вопросы по оплате. Или напишите в наш Telegram-бот
+        Укажите номер телефона — рассчитаем актуальный курс и ответим на вопросы по оплате.<br />Или напишите в наш Telegram‑бот
       </h2>
     </template>
 
@@ -169,7 +169,7 @@ async function handleSubmit() {
   justify-content: center;
   width: 100%;
   min-height: 55px;
-  margin-top: 12px;
+  margin-top: -2px; /* вместе с отступом формы 16px — 14px до «Отправить» */
   padding: 12px 24px;
   border: 1px solid #333;
   border-radius: 10px;
