@@ -12,7 +12,7 @@
 
     <ServiceEconomySec :featureOverrides="[{ text: 'Вы платите в рублях внутри РФ. Bitox переводит деньги получателю за рубежом с зарубежного счёта.' }]" :override="transfer.service_economy_sec" />
 
-    <HomeChoiceSec />
+    <HomeChoiceSec :section="transfer.transfer_choice_sec?.title_section ? transfer.transfer_choice_sec : null" :patch="transfer.transfer_choice_sec" />
 
     <HomeBenefitsSec />
 
@@ -54,6 +54,7 @@ const populate = [
   'populate[service_media_about_us_sec][populate][posts][populate]=logo',
   'populate[services_faq_sec][populate]=questions_list',
   'populate[service_economy_sec][populate][economy_list_items][populate]=image',
+  'populate[transfer_choice_sec][populate]=table_row',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
