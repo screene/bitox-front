@@ -534,7 +534,7 @@ const aboutMega = [
 const navItems = computed(() => [
   // mobAllLabel — подпись ссылки на страницу раздела в мобильном меню, чтобы не дублировать название раздела
   { label: 'Бизнесу', to: '/business', mega: businessMega.value, mobAllLabel: 'Все услуги для бизнеса' },
-  { label: 'Частным клиентам', mega: privateClientsMega.value, clickable: false },
+  { label: 'Частным клиентам', to: '/individuals', mega: privateClientsMega.value, mobAllLabel: 'Все услуги для частных клиентов' },
   { label: 'Международные расчеты', to: '/transfers', mega: transfersMega.value, mobAllLabel: 'Все страны' },
   { label: 'Обмен криптовалюты', to: '/crypto-exchange', mega: exchangeMega.value, mobAllLabel: 'Все направления обмена' },
   { label: 'О компании', mega: aboutMega, clickable: false },
