@@ -10,6 +10,7 @@
           v-for="card in cards"
           :key="card.id"
           class="service-invoices-sec__card"
+          :class="{ 'service-invoices-sec__card--link': card.pageLink }"
         >
           <div class="service-invoices-sec__card-top">
             <div class="service-invoices-sec__card-media">
@@ -22,7 +23,11 @@
             </div>
 
             <div class="service-invoices-sec__card-body">
-              <h3 v-if="card.title" class="service-invoices-sec__card-title">{{ card.title }}</h3>
+              <!-- Если у карточки есть ссылка (page_link), название — ссылка на страницу -->
+              <h3 v-if="card.title" class="service-invoices-sec__card-title">
+                <NuxtLink v-if="card.pageLink" :to="card.pageLink" class="service-invoices-sec__card-title-link">{{ card.title }}</NuxtLink>
+                <template v-else>{{ card.title }}</template>
+              </h3>
               <p v-if="card.text" class="service-invoices-sec__card-text">{{ card.text }}</p>
 
               <div v-if="card.tags.length" class="service-invoices-sec__tags">
@@ -113,3 +118,26 @@ onUnmounted(() => {
   sectionAnimation?.revert()
 })
 </script>
+
+<style scoped>
+/* Карточки со ссылкой подсвечиваются при наведении */
+.service-invoices-sec__card--link {
+  transition: box-shadow 0.25s ease;
+}
+
+.service-invoices-sec__card--link:hover {
+  box-shadow: 0 0 0 2px #FFDD2D, 0 12px 32px rgba(51, 51, 51, 0.12);
+}
+
+.service-invoices-sec__card-title-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.service-invoices-sec__card--link:hover .service-invoices-sec__card-title-link,
+.service-invoices-sec__card-title-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+</style>
