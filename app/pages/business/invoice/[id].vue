@@ -42,7 +42,7 @@
 
     <HomeMediaSec v-if="invoice.service_media_about_us_sec" :section="invoice.service_media_about_us_sec" />
     
-    <InvoiceFaqSec :country-name="invoice.title" />
+    <InvoiceFaqSec :country-name="invoice.title" :section="invoice.invoice_faq_sec" />
     
     <ServiceContactSec :sectionTitle="`Оплатить инвойс в ${getCountryPrepositional(invoice.title, 'prepositional')}`" />
   </main>
@@ -73,6 +73,7 @@ const populate = [
   'populate[invoice_choice_sec][populate]=table_row',
   'populate[services_benefits_sec][populate][benefits_items]=true',
   'populate[services_benefits_sec][populate][image_for_box_2]=true',
+  'populate[invoice_faq_sec][populate]=questions_list',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
