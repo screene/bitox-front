@@ -68,7 +68,7 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: `${requestUrl.origin}${route.path}`,
+      href: 'https://bitox.global/blog',
     },
   ],
 })
