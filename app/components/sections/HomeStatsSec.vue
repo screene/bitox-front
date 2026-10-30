@@ -12,14 +12,28 @@
 </template>
 
 <script setup>
+const props = defineProps({
+  // Свои цифры страницы (stats_sec из админки); если пусто — общий блок
+  section: {
+    type: Object,
+    default: null,
+  },
+})
+
 const urlApi = useRuntimeConfig().public.apiUrl
 
+const useExternalSection = Boolean(props.section?.stats_element?.length)
+
 const { data: statsResponse } = await useFetch(
-  `${urlApi}/api/stats-component?populate[stats_section][populate]=stats_element`,
+  () => (useExternalSection
+    ? null
+    : `${urlApi}/api/stats-component?populate[stats_section][populate]=stats_element`),
 )
 
 const stats = computed(() => {
-  const items = statsResponse.value?.data?.stats_section?.stats_element
+  const items = useExternalSection
+    ? props.section.stats_element
+    : statsResponse.value?.data?.stats_section?.stats_element
 
   if (!items?.length) return []
 
