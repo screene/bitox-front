@@ -14,7 +14,7 @@
 
     <HomeChoiceSec :section="transfer.transfer_choice_sec?.title_section ? transfer.transfer_choice_sec : null" :patch="transfer.transfer_choice_sec" />
 
-    <HomeBenefitsSec />
+    <HomeBenefitsSec :section="transfer.services_benefits_sec" />
 
     <BusinessCountriesSec
       v-if="transfersPages.length"
@@ -55,6 +55,8 @@ const populate = [
   'populate[services_faq_sec][populate]=questions_list',
   'populate[service_economy_sec][populate][economy_list_items][populate]=image',
   'populate[transfer_choice_sec][populate]=table_row',
+  'populate[services_benefits_sec][populate][benefits_items]=true',
+  'populate[services_benefits_sec][populate][image_for_box_2]=true',
   ...STRAPI_SEO_POPULATE_PARTS,
 ].join('&')
 
