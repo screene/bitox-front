@@ -24,15 +24,24 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  // Свой FAQ страницы (invoice_faq_sec); если пустой — показываем общий из Invoice faq
+  section: {
+    type: Object,
+    default: null,
+  },
 })
 
 const urlApi = useRuntimeConfig().public.apiUrl
 
+const useExternalSection = Boolean(props.section?.questions_list?.length)
+
 const { data: faqResponse } = await useFetch(
-  `${urlApi}/api/invoice-faq?populate[faq_sec][populate]=questions_list`,
+  () => (useExternalSection
+    ? null
+    : `${urlApi}/api/invoice-faq?populate[faq_sec][populate]=questions_list`),
 )
 
-const section = faqResponse.value?.data?.faq_sec || null
+const section = useExternalSection ? props.section : (faqResponse.value?.data?.faq_sec || null)
 
 
 
