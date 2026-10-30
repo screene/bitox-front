@@ -2,7 +2,7 @@
   <!-- Хаб для физлиц /individuals/ — по образцу /business/, данные из single type «Individuals hub» -->
   <main v-if="hub" class="service-page">
     <ServiceHeroSec v-if="hub.service_hero_sec" :section="hub.service_hero_sec" />
-    <HomeStatsSec />
+    <HomeStatsSec :section="hub.stats_sec" />
     <!-- Карточки со ссылками на страницы физлиц (медицина, образование, недвижимость, авто) -->
     <ServiceInvoicesSec v-if="hub.services_invoice_sec" :section="hub.services_invoice_sec" />
     <!-- Свои тексты, если заполнены в админке; пустые поля — из общего блока -->
@@ -33,6 +33,7 @@ const urlApi = useRuntimeConfig().public.apiUrl
 
 const populate = [
   'populate[service_hero_sec][populate]=image',
+  'populate[stats_sec][populate]=stats_element',
   'populate[services_invoice_sec][populate][invoice_elements][populate][invoice_image]=true',
   'populate[services_invoice_sec][populate][invoice_elements][populate][invoice_element_list_items]=true',
   'populate[service_economy_sec][populate][economy_list_items][populate]=image',
