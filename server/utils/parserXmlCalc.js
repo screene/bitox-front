@@ -8,17 +8,30 @@ const parser = new XMLParser({
   isArray: (name) => name === 'item',
 })
 
+// Последние непустые курсы: если выгрузка недоступна или пустая (например, ночью),
+// отдаём их, чтобы калькулятор не оставался без курса
+let lastRates = null
+
 export async function fetchExchangeRates() {
-  const xml = await $fetch(RATES_URL, {
-    responseType: 'text',
-  })
+  try {
+    const xml = await $fetch(RATES_URL, {
+      responseType: 'text',
+    })
 
-  const parsed = parser.parse(xml)
-  const rates = parsed?.rates || {}
-  const items = Array.isArray(rates.item) ? rates.item : []
+    const parsed = parser.parse(xml)
+    const rates = parsed?.rates || {}
+    const items = Array.isArray(rates.item) ? rates.item : []
 
-  return {
-    generatedAt: rates.generated_at || null,
-    items,
+    if (items.length) {
+      lastRates = {
+        generatedAt: rates.generated_at || null,
+        items,
+      }
+      return lastRates
+    }
+  } catch (error) {
+    if (!lastRates) throw error
   }
+
+  return lastRates || { generatedAt: null, items: [] }
 }
