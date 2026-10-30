@@ -15,6 +15,7 @@
       :countries="transfersPages"
       link-base="/transfers"
     />
+    <BusinessOtherSec :items="otherServices" />
     <ServiceExamplesSec
       v-if="hub.services_invoice_example_sec"
       :section="hub.services_invoice_example_sec"
@@ -54,6 +55,28 @@ const [{ data: hubResponse }, { data: transfersPagesResponse }] = await Promise.
 ])
 
 const hub = computed(() => hubResponse.value?.data)
+
+// «Другие наши услуги» — перелинковка на разделы сайта (тексты по ТЗ)
+const otherServices = [
+  {
+    title: 'Обмен криптовалюты',
+    subtitle: 'Покупка и продажа стейблкоинов USDT/USDC за рубли, прием наличных и переводов с карт',
+    link: '/crypto-exchange',
+    image: '/uploads/Oplata_valyutnogo_kontrakta_b42a8d8886.webp',
+  },
+  {
+    title: 'Оплата инвойсов',
+    subtitle: 'Проведем платежи на покупку оборудования и других товаров физическими лицами у поставщиков за границей',
+    link: '/business/invoice',
+    image: '/uploads/Vozvrat_valyutnoj_vyruchki_2d37b6c72c.webp',
+  },
+  {
+    title: 'Переводы с карты на карту за рубеж',
+    subtitle: 'Принимаем рубли внутри РФ, конвертируем в нужную валюту и переводим их на карту зарубежного банка',
+    link: '/transfers',
+    image: '/uploads/O_kompanii_O_Bitox_v_czifrah_55a55464f2.webp',
+  },
+]
 
 const transfersPages = computed(() =>
   mapStrapiInvoices(transfersPagesResponse.value?.data ?? [], urlApi),
