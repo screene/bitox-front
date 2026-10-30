@@ -157,14 +157,17 @@ export function mapStrapiIndividualsPages(items, apiUrl) {
   }))
 }
 
+// Списки стран всегда по алфавиту (иначе порядок зависит от внутренних ID Strapi и меняется после публикаций)
 export function mapStrapiInvoices(items, apiUrl) {
-  return items.map((item) => ({
-    id: item.id,
-    documentId: item.documentId,
-    slug: item.slug,
-    name: item.title,
-    flag: getStrapiMediaUrl(item.flag, apiUrl),
-  }))
+  return items
+    .map((item) => ({
+      id: item.id,
+      documentId: item.documentId,
+      slug: item.slug,
+      name: item.title,
+      flag: getStrapiMediaUrl(item.flag, apiUrl),
+    }))
+    .sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ru'))
 }
 
 export function mapStrapiServiceCategories(categories, apiUrl) {
