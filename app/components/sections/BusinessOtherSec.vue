@@ -1,7 +1,9 @@
 <template>
   <section v-if="otherServices.length" ref="sectionRef" class="service-other-sec">
     <div class="container">
-      <h3 class="service-other-sec__title">Другие наши услуги</h3>
+      <!-- Со своим списком (props.items) заголовок — не тег заголовка, а div (по ТЗ) -->
+      <div v-if="items" class="service-other-sec__title">Другие наши услуги</div>
+      <h3 v-else class="service-other-sec__title">Другие наши услуги</h3>
 
       <div class="service-other-sec__nav">
         <button
@@ -32,8 +34,8 @@
       <div class="service-other-sec__grid">
         <NuxtLink
           v-for="item in otherServices"
-          :key="item.documentId"
-          :to="`/business/${item.slug}`"
+          :key="item.link"
+          :to="item.link"
           class="service-other-sec__card"
         >
           <div class="service-other-sec__preview">
@@ -54,9 +56,9 @@
       <div class="service-other-sec__slider-wrap">
         <ClientOnly>
           <swiper-container ref="swiperRef" :init="false" class="service-other-sec__slider">
-            <swiper-slide v-for="item in otherServices" :key="`slide-${item.documentId}`">
+            <swiper-slide v-for="item in otherServices" :key="`slide-${item.link}`">
               <NuxtLink
-                :to="`/business/${item.slug}`"
+                :to="item.link"
                 class="service-other-sec__card service-other-sec__card--slide"
               >
                 <div class="service-other-sec__preview">
@@ -84,11 +86,22 @@
 import gsap from 'gsap'
 import { mapStrapiBusinessPages } from '~/utils/strapi'
 
+const props = defineProps({
+  // Свой список карточек вместо страниц /business/…: [{ title, subtitle, link, image }]
+  // image — путь из медиатеки Strapi (/uploads/…) или полный адрес
+  items: {
+    type: Array,
+    default: null,
+  },
+})
+
 const urlApi = useRuntimeConfig().public.apiUrl
 const route = useRoute()
 
 const { data: businessPagesResponse } = await useFetch(
-  `${urlApi}/api/business-pages?fields[0]=title&fields[1]=slug&fields[2]=subtitle&populate=preview_image&pagination[pageSize]=100`,
+  () => (props.items
+    ? null
+    : `${urlApi}/api/business-pages?fields[0]=title&fields[1]=slug&fields[2]=subtitle&populate=preview_image&pagination[pageSize]=100`),
 )
 
 const sectionRef = ref(null)
@@ -102,7 +115,15 @@ const excludedSlug = computed(() => {
 })
 
 const otherServices = computed(() => {
+  if (props.items) {
+    return props.items.map((item) => ({
+      ...item,
+      image: item.image?.startsWith('/') ? `${urlApi}${item.image}` : item.image,
+    }))
+  }
+
   const pages = mapStrapiBusinessPages(businessPagesResponse.value?.data ?? [], urlApi)
+    .map((page) => ({ ...page, link: `/business/${page.slug}` }))
 
   if (!excludedSlug.value) {
     return pages
