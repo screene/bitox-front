@@ -34,7 +34,7 @@
     
     <BusinessCountriesSec
       v-if="transfersPages.length"
-      :title="`Международные платежи в  ${getCountryPrepositional(transfersPage.title, 'accusative')} и по всему миру`"
+      :title="`Международные платежи в ${getCountryPrepositional(transfersPage.title, 'accusative')} и по всему миру`"
       :countries="transfersPages"
       link-base="/transfers"
     />
